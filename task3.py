@@ -27,6 +27,7 @@ Checked.click()
 
 #  Unchecked here
 
+
 Checked = wait.until(EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, 'span.rct-checkbox')))
 
