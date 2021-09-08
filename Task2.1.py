@@ -5,10 +5,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 #  Explicit wait for certain condition until not get exception of NotElementVisible
+import sys
+from selenium import webdriver
+from webdriver_manager.firefox import GeckoDriverManager
 
+for p in sys.path:
+    print(p)
 # for Chrome driver
 # driver = webdriver.Chrome()
-driver = webdriver.Firefox(executable_path="/Users/muhammadasif/Downloads/geckodriver")
+#  First way is this
+# driver = webdriver.Firefox(executable_path="/Users/muhammadasif/Downloads/geckodriver")
+
+# 2nd way is install GeckoDriverManager and pass it in Firefox object
+
+driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+# driver = webdriver.Firefox()
 driver.get("https://demoqa.com/text-box")
 assert "ToolsQA" in driver.title
 wait = WebDriverWait(driver, 10)
