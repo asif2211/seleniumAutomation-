@@ -5,14 +5,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
-from webdriver_manager.firefox import GeckoDriverManager
-from webdriver_manager.chrome import ChromeDriverManager
+import pytest
 import os
 
 
 class SeleniumTestTask2 :
+
     def chromeTest(self):
-        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver = webdriver.Chrome()
         driver.get("https://demoqa.com/checkbox")
 
         assert "ToolsQA" in driver.title
@@ -43,7 +43,7 @@ class SeleniumTestTask2 :
 
     def firefoxTest(self):
 
-        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        driver = webdriver.Firefox()
         driver.get("https://demoqa.com/checkbox")
 
         assert "ToolsQA" in driver.title
@@ -71,6 +71,7 @@ class SeleniumTestTask2 :
 
         print('test is finished')
         driver.close()
+
 
 
 testObject = SeleniumTestTask2()
