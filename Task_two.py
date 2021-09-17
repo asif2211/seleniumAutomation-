@@ -1,54 +1,47 @@
+# Import the 'modules' that are required for execution for Selenium test automation
+import pytest
 from selenium import webdriver
-import time
-from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-import pytest
-import os
+import time
+from FireEvents import FireEvents
+import sys
 
 
-class SeleniumTestTask2 :
+def pytest_addoption(parser):
+    parser.addoption("--browser", action="store", default="chrome")
 
-    def chromeTest(self):
-        driver = webdriver.Chrome()
-        driver.get("https://demoqa.com/checkbox")
 
-        assert "ToolsQA" in driver.title
+@pytest.fixture(scope="class")
+def getBrowser(request):
+    _browser = request.config.getoption("--browser")
+    return _browser
 
-        wait = WebDriverWait(driver, 20)
 
-        Expand_check_box = wait.until(EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, '.rct-icon.rct-icon-expand-all')))
+# Fixture for browser selection
+@pytest.fixture(scope="class")
+def driver_init(request,getBrowser):
+    if getBrowser == "chrome":
+        ff_driver = webdriver.Chrome()
+    elif getBrowser == "firefox":
+        ff_driver = webdriver.Firefox()
 
-        Expand_check_box.click()
+    request.cls.driver = ff_driver
 
-        #  Checked here
 
-        Checked = wait.until(EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, 'span.rct-checkbox')))
+@pytest.mark.usefixtures("driver_init")
+class BasicTest:
+    pass
 
-        Checked.click()
 
-        #  Unchecked here
-
-        Checked = wait.until(EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, 'span.rct-checkbox')))
-
-        Checked.click()
-
-        print('test is finished')
-        driver.close()
-
-    def firefoxTest(self):
-
-        driver = webdriver.Firefox()
-        driver.get("https://demoqa.com/checkbox")
-
-        assert "ToolsQA" in driver.title
-
-        wait = WebDriverWait(driver, 20)
+class Test_URL(BasicTest):
+    def test_open_url(self):
+        self.driver.get('https://demoqa.com/checkbox')
+        self.driver.maximize_window()
+        wait = WebDriverWait(self.driver, 20)
 
         Expand_check_box = wait.until(EC.visibility_of_element_located(
             (By.CSS_SELECTOR, '.rct-icon.rct-icon-expand-all')))
@@ -70,10 +63,5 @@ class SeleniumTestTask2 :
         Checked.click()
 
         print('test is finished')
-        driver.close()
+        self.driver.close()
 
-
-
-testObject = SeleniumTestTask2()
-testObject.chromeTest()
-# testObject.firefoxTest()

@@ -1,35 +1,35 @@
+# Import the 'modules' that are required for execution for Selenium test automation
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from FireEvents import  FireEvents
 import time
+from FireEvents import FireEvents
+import sys
 
 
 def pytest_addoption(parser):
-    # parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--browser", action="store", default="chrome")
-    # parser.addoption("--env", action="store", default=settings.env)
 
 
-@pytest.fixture
+@pytest.fixture(scope="class")
 def getBrowser(request):
     _browser = request.config.getoption("--browser")
     return _browser
 
 
-@pytest.fixture
+# Fixture for browser selection
+@pytest.fixture(scope="class")
 def driver_init(request,getBrowser):
-    print("browser from getBrowser method - " + getBrowser)
     if getBrowser == "chrome":
-        _driver = webdriver.Chrome()
+        ff_driver = webdriver.Chrome()
     elif getBrowser == "firefox":
-        _driver = webdriver.Firefox()
+        ff_driver = webdriver.Firefox()
 
-    request.cls.driver = _driver
-    # yield
-    # _driver.close()
+    request.cls.driver = ff_driver
 
 
 @pytest.mark.usefixtures("driver_init")
@@ -39,8 +39,8 @@ class BasicTest:
 
 class Test_URL(BasicTest):
     def test_open_url(self):
-        self.driver.get("https://demoqa.com/text-box")
-        print(self.driver.title)
+        self.driver.get('https://demoqa.com/text-box')
+        self.driver.maximize_window()
         wait = WebDriverWait(self.driver, 20)
         # Full Name
         full_name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[placeholder="Full Name"]')))
@@ -64,9 +64,5 @@ class Test_URL(BasicTest):
 
         self.driver.execute_script(
             FireEvents.fire_event_script + "fireEvent(document.querySelector('button#submit'), 'click');")
-        time.sleep(1)
+        time.sleep(5)
         self.driver.close()
-
-# obj = Task_One()
-# obj_two = obj.Test_URL()
-# obj_two.test_open_url()
