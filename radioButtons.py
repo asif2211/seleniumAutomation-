@@ -23,7 +23,7 @@ def getBrowser(request):
 
 # Fixture for browser selection
 @pytest.fixture(scope="class")
-def driver_init(request,getBrowser):
+def driver_init(request, getBrowser):
     if getBrowser == "chrome":
         ff_driver = webdriver.Chrome()
     elif getBrowser == "firefox":
@@ -39,29 +39,9 @@ class BasicTest:
 
 class Test_URL(BasicTest):
     def test_open_url(self):
-        self.driver.get('https://demoqa.com/checkbox')
+        self.driver.get('https://demoqa.com/radio-button')
         self.driver.maximize_window()
-        wait = WebDriverWait(self.driver, 20)
 
-        Expand_check_box = wait.until(EC.visibility_of_element_located(
-            (By.CSS_SELECTOR, '.rct-icon.rct-icon-expand-all')))
-
-        Expand_check_box.click()
-
-        #  Checked here
-
-        Checked = wait.until(EC.visibility_of_element_located(
-            (By.CSS_SELECTOR, 'span.rct-checkbox')))
-
-        Checked.click()
-
-        #  Unchecked here
-
-        Checked = wait.until(EC.visibility_of_element_located(
-            (By.CSS_SELECTOR, 'span.rct-checkbox')))
-
-        Checked.click()
-
-        print('test is finished')
+        self.driver.execute_script(FireEvents.fire_event_script +
+                                                          "fireEvent(document.querySelector('input#yesRadio.custom-control-input'),'click');")
         self.driver.close()
-

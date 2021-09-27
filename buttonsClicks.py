@@ -39,30 +39,32 @@ class BasicTest:
 
 class Test_URL(BasicTest):
     def test_open_url(self):
-        self.driver.get('https://demoqa.com/text-box')
+        self.driver.get('https://demoqa.com/buttons')
         self.driver.maximize_window()
         wait = WebDriverWait(self.driver, 20)
-        # Full Name
-        full_name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[placeholder="Full Name"]')))
-        full_name.clear()
-        full_name.send_keys("MuhammadAsif")
+        # double click
+        doubleClick  = wait.until(EC.visibility_of_element_located(
+            (By.CSS_SELECTOR, 'button#doubleClickBtn.btn.btn-primary')))
 
-        # Email
-        email = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[placeholder="name@example.com"]')))
-        email.clear()
-        email.send_keys("abc@xyz.com")
+        doubleClick.click()
+        print('double click has done')
 
-        # Addresss
-        address = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea#currentAddress')))
-        address.clear()
-        address.send_keys("asif from lahroe")
+        # right click
+        rightClick = wait.until(EC.visibility_of_element_located(
+            (By.CSS_SELECTOR, 'button#rightClickBtn.btn.btn-primary')))
 
-        # Permanent Address
-        per_address = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea#permanentAddress')))
-        per_address.clear()
-        per_address.send_keys("Asif From khanpur")
+        rightClick.click()
+        print('right click has done')
+        time.sleep(1)
+        # simple click
 
-        self.driver.execute_script(
-            FireEvents.fire_event_script + "fireEvent(document.querySelector('button#submit'), 'click');")
-        time.sleep(5)
+        simpleClick = wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, '.col-12.mt-4.col-md-6 .mt-4:nth-of-type(3) > button')))
+
+        simpleClick.click()
+
+        print('simple click has done')
+
+        print('test is finished')
         self.driver.close()
+
