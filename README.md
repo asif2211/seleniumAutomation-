@@ -6,4 +6,4 @@ This is python selenium web automation assignments and task managments where I g
 - Pytest
 - chrome browser
 - Geckodriver
-- `pytest -v -s Task_one.py --browser firefox, to test`
+- `pytest -v -s ButtonsClicks.py --browser firefox, to test`
