@@ -6,4 +6,5 @@ This is python selenium web automation assignments and task managments where I g
 - Pytest
 - chrome browser
 - Geckodriver
-- `pytest -v -s ButtonsClicks.py --browser firefox, to test`
+- POM
+- ` python -m unittest tests/ButtonsClicks_test.py `
